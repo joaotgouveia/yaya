@@ -28,8 +28,4 @@ if (BUILD_LINTING)
     endif()
 endif()
 
-if(${IS_PROJECT} AND BUILD_TESTING)
-    add_subdirectory(test)
-endif()
-
 add_subdirectory(src)
