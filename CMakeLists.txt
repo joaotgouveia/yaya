@@ -6,7 +6,8 @@ project(
     DESCRIPTION "Yet another Yet Another Programming Language"
     LANGUAGES CXX)
 
-find_package(Qt6 COMPONENTS Test)
+find_package(BISON REQUIRED)
+find_package(FLEX REQUIRED)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 
