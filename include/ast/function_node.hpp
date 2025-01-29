@@ -25,8 +25,8 @@ class function_node : public basic_node {
     const std::unique_ptr<group_node>& args() const { return _args; }
     const std::unique_ptr<group_node>& body() const { return _body; }
 
-    void accept(AbstractASTVisitor* visitor) override {
-        visitor->do_node(this);
+    void* accept(AbstractASTVisitor* visitor) override {
+        return visitor->do_node(this);
     }
 };
 

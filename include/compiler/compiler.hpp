@@ -20,9 +20,9 @@ class Compiler {
     bool parse();
 
   public:
-    Compiler(std::string& input_file,
+    Compiler(const std::string& input,
              std::unique_ptr<AbstractASTVisitor> visitor)
-        : _input(input_file), _visitor(std::move(visitor)) {}
+        : _input(input), _visitor(std::move(visitor)) {}
 
     bool compile();
 

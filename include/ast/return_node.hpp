@@ -19,8 +19,8 @@ class return_node : public yaya::basic_node {
         return _expression;
     }
 
-    void accept(AbstractASTVisitor* visitor) override {
-        visitor->do_node(this);
+    void* accept(AbstractASTVisitor* visitor) override {
+        return visitor->do_node(this);
     }
 };
 } // namespace yaya

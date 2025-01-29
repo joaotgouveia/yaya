@@ -22,8 +22,8 @@ class assignment_node : public basic_node {
     const std::unique_ptr<lvalue_node>& lvalue() const { return _lvalue; }
     const std::unique_ptr<expression_node>& expr() const { return _expr; }
 
-    void accept(AbstractASTVisitor* visitor) override {
-        visitor->do_node(this);
+    void* accept(AbstractASTVisitor* visitor) override {
+        return visitor->do_node(this);
     }
 };
 

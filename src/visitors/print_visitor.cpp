@@ -35,61 +35,69 @@ void PrintVisitor::close_tag(const std::string& name) {
     std::cout << std::string(_indent, ' ') << "</" << name << ">\n";
 }
 
-void PrintVisitor::do_node(basic_node& node) {
+void* PrintVisitor::do_node(basic_node& node) {
     _indent = 0;
     node.accept(this);
+    return nullptr;
 }
 
-void PrintVisitor::do_node(add_node* node) {
+void* PrintVisitor::do_node(add_node* node) {
     open_tag("add_node");
     node->lhs()->accept(this);
     node->rhs()->accept(this);
     close_tag("add_node");
+    return nullptr;
 }
 
-void PrintVisitor::do_node(and_node* node) {
+void* PrintVisitor::do_node(and_node* node) {
     open_tag("and_node");
     node->lhs()->accept(this);
     node->rhs()->accept(this);
     close_tag("and_node");
+    return nullptr;
 }
 
-void PrintVisitor::do_node(assignment_node* node) {
+void* PrintVisitor::do_node(assignment_node* node) {
     open_tag("assignment_node");
     node->lvalue()->accept(this);
     node->expr()->accept(this);
     close_tag("assignment_node");
+    return nullptr;
 }
 
-void PrintVisitor::do_node(call_node* node) {
+void* PrintVisitor::do_node(call_node* node) {
     open_tag("call_node id=" + node->identifier());
     node->args()->accept(this);
     close_tag("call_node");
+    return nullptr;
 }
 
-void PrintVisitor::do_node(declaration_node* node) {
+void* PrintVisitor::do_node(declaration_node* node) {
     open_tag("declaration_node id=" + node->identifier());
     if (node->initializer() != nullptr) {
         node->initializer()->accept(this);
     }
     close_tag("declaration_node");
+    return nullptr;
 }
 
-void PrintVisitor::do_node(div_node* node) {
+void* PrintVisitor::do_node(div_node* node) {
     open_tag("div_node");
     node->lhs()->accept(this);
     node->rhs()->accept(this);
     close_tag("div_node");
+    return nullptr;
 }
 
-void PrintVisitor::do_node(eq_node* node) {
+void* PrintVisitor::do_node(eq_node* node) {
     open_tag("eq_node");
     node->lhs()->accept(this);
     node->rhs()->accept(this);
     close_tag("eq_node");
+    return nullptr;
 }
 
-void PrintVisitor::do_node(function_node* node) {
+void* PrintVisitor::do_node(function_node* node) {
     open_tag("function_node id=" + node->identifier());
     if (node->args() != nullptr) {
         node->args()->accept(this);
@@ -98,93 +106,107 @@ void PrintVisitor::do_node(function_node* node) {
         node->body()->accept(this);
     }
     close_tag("function_node");
+    return nullptr;
 }
 
-void PrintVisitor::do_node(geq_node* node) {
+void* PrintVisitor::do_node(geq_node* node) {
     open_tag("geq_node");
     node->lhs()->accept(this);
     node->rhs()->accept(this);
     close_tag("geq_node");
+    return nullptr;
 }
 
-void PrintVisitor::do_node(group_node* node) {
+void* PrintVisitor::do_node(group_node* node) {
     open_tag("group_node");
     for (const auto& el : node->elements()) {
         el->accept(this);
     }
     close_tag("group_node");
+    return nullptr;
 }
 
-void PrintVisitor::do_node(gt_node* node) {
+void* PrintVisitor::do_node(gt_node* node) {
     open_tag("gt_node");
     node->lhs()->accept(this);
     node->rhs()->accept(this);
     close_tag("gt_node");
+    return nullptr;
 }
 
-void PrintVisitor::do_node(int_literal_node* node) {
+void* PrintVisitor::do_node(int_literal_node* node) {
     std::cout << std::string(_indent, ' ')
               << "<int_literal_node val=" << node->val() << " />\n";
+    return nullptr;
 }
 
-void PrintVisitor::do_node(leq_node* node) {
+void* PrintVisitor::do_node(leq_node* node) {
     open_tag("leq_node");
     node->lhs()->accept(this);
     node->rhs()->accept(this);
     close_tag("leq_node");
+    return nullptr;
 }
 
-void PrintVisitor::do_node(lt_node* node) {
+void* PrintVisitor::do_node(lt_node* node) {
     open_tag("lt_node");
     node->lhs()->accept(this);
     node->rhs()->accept(this);
     close_tag("lt_node");
+    return nullptr;
 }
 
-void PrintVisitor::do_node(lvalue_node* node) {
+void* PrintVisitor::do_node(lvalue_node* node) {
     std::cout << std::string(_indent, ' ')
               << "<lvalue_node id=" << node->identifier() << " />\n";
+    return nullptr;
 }
 
-void PrintVisitor::do_node(mod_node* node) {
+void* PrintVisitor::do_node(mod_node* node) {
     open_tag("mod_node");
     node->lhs()->accept(this);
     node->rhs()->accept(this);
     close_tag("mod_node");
+    return nullptr;
 }
 
-void PrintVisitor::do_node(mul_node* node) {
+void* PrintVisitor::do_node(mul_node* node) {
     open_tag("mul_node");
     node->lhs()->accept(this);
     node->rhs()->accept(this);
     close_tag("mul_node");
+    return nullptr;
 }
 
-void PrintVisitor::do_node(neq_node* node) {
+void* PrintVisitor::do_node(neq_node* node) {
     open_tag("neq_node");
     node->lhs()->accept(this);
     node->rhs()->accept(this);
     close_tag("neq_node");
+    return nullptr;
 }
 
-void PrintVisitor::do_node(or_node* node) {
+void* PrintVisitor::do_node(or_node* node) {
     open_tag("or_node");
     node->lhs()->accept(this);
     node->rhs()->accept(this);
     close_tag("or_node");
+    return nullptr;
 }
 
-void PrintVisitor::do_node(return_node* node) {
+void* PrintVisitor::do_node(return_node* node) {
     open_tag("return_node");
     node->expression()->accept(this);
     close_tag("return_node");
+    return nullptr;
 }
 
-void PrintVisitor::do_node(sub_node* node) {
+void* PrintVisitor::do_node(sub_node* node) {
     open_tag("sub_node");
     node->lhs()->accept(this);
     node->rhs()->accept(this);
     close_tag("sub_node");
+    return nullptr;
 }
 
 } // namespace yaya

@@ -5,10 +5,11 @@
 namespace yaya {
 
 class basic_node {
+    // TODO: Add locations, improve errors
   public:
     basic_node() = default;
 
-    virtual void accept(AbstractASTVisitor* visitor) = 0;
+    virtual void* accept(AbstractASTVisitor* visitor) = 0;
 };
 
 } // namespace yaya

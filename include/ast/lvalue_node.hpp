@@ -16,8 +16,8 @@ class lvalue_node : public expression_node {
 
     const std::string& identifier() const { return _identifier; }
 
-    void accept(AbstractASTVisitor* visitor) override {
-        visitor->do_node(this);
+    void* accept(AbstractASTVisitor* visitor) override {
+        return visitor->do_node(this);
     }
 };
 

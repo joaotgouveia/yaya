@@ -24,8 +24,8 @@ class declaration_node : public basic_node {
         return _initializer;
     }
 
-    void accept(AbstractASTVisitor* visitor) override {
-        visitor->do_node(this);
+    void* accept(AbstractASTVisitor* visitor) override {
+        return visitor->do_node(this);
     }
 };
 

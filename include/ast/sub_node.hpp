@@ -12,8 +12,8 @@ class sub_node : public binop_node {
              std::unique_ptr<expression_node> rhs)
         : binop_node(std::move(lhs), std::move(rhs)) {}
 
-    void accept(AbstractASTVisitor* visitor) override {
-        visitor->do_node(this);
+    void* accept(AbstractASTVisitor* visitor) override {
+        return visitor->do_node(this);
     }
 };
 

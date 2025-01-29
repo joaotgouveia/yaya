@@ -14,8 +14,8 @@ class int_literal_node : public expression_node {
 
     int val() const { return _val; }
 
-    void accept(AbstractASTVisitor* visitor) override {
-        visitor->do_node(this);
+    void* accept(AbstractASTVisitor* visitor) override {
+        return visitor->do_node(this);
     }
 };
 

@@ -20,8 +20,8 @@ class call_node : public expression_node {
     const std::string& identifier() const { return _identifier; }
     const std::unique_ptr<group_node>& args() const { return _args; }
 
-    void accept(AbstractASTVisitor* visitor) override {
-        visitor->do_node(this);
+    void* accept(AbstractASTVisitor* visitor) override {
+        return visitor->do_node(this);
     }
 };
 

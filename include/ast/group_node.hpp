@@ -26,8 +26,8 @@ class group_node : public basic_node {
     }
     size_t length() const { return _elements.size(); }
 
-    void accept(AbstractASTVisitor* visitor) override {
-        visitor->do_node(this);
+    void* accept(AbstractASTVisitor* visitor) override {
+        return visitor->do_node(this);
     }
 };
 
