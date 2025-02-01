@@ -11,21 +11,19 @@
 
 namespace yaya {
 
-class function_node : public typed_node {
+class function_header_node : public typed_node {
 
     std::string _identifier;
     std::unique_ptr<group_node> _args;
-    std::unique_ptr<group_node> _body;
 
   public:
-    function_node(std::string& identifier, std::unique_ptr<group_node> args,
-                  std::unique_ptr<group_node> body, llvm::FunctionType* type)
-        : typed_node(type), _identifier(identifier), _args(std::move(args)),
-          _body(std::move(body)) {}
+    function_header_node(std::string& identifier,
+                         std::unique_ptr<group_node> args,
+                         llvm::FunctionType* type)
+        : typed_node(type), _identifier(identifier), _args(std::move(args)) {}
 
     const std::string& identifier() const { return _identifier; }
     const std::unique_ptr<group_node>& args() const { return _args; }
-    const std::unique_ptr<group_node>& body() const { return _body; }
 
     llvm::Type* ret_type() const {
         if (!_type) {

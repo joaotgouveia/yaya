@@ -11,15 +11,16 @@ namespace yaya {
 
 class assignment_node : public basic_node {
 
-    std::unique_ptr<lvalue_node> _lvalue;
+    std::string _identifier;
     std::unique_ptr<expression_node> _expr;
 
   public:
-    assignment_node(std::unique_ptr<lvalue_node> lvalue,
+    assignment_node(const std::string& identifier,
                     std::unique_ptr<expression_node> expr)
-        : basic_node(), _lvalue(std::move(lvalue)), _expr(std::move(expr)) {}
+        : basic_node(), _identifier(std::move(identifier)),
+          _expr(std::move(expr)) {}
 
-    const std::unique_ptr<lvalue_node>& lvalue() const { return _lvalue; }
+    const std::string& identifier() const { return _identifier; }
     const std::unique_ptr<expression_node>& expr() const { return _expr; }
 
     void* accept(AbstractASTVisitor* visitor) override {

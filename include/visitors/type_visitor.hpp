@@ -12,7 +12,6 @@
 #include "ast/function_node.hpp"
 #include "ast/geq_node.hpp"
 #include "ast/group_node.hpp"
-#include "ast/gt_node.hpp"
 #include "ast/int_literal_node.hpp"
 #include "ast/leq_node.hpp"
 #include "ast/lt_node.hpp"
@@ -23,18 +22,25 @@
 #include "ast/or_node.hpp"
 #include "ast/return_node.hpp"
 #include "ast/sub_node.hpp"
+#include "compiler/compiler.hpp"
+#include "compiler/symbol_table.hpp"
 #include "visitors/abstract_ast_visitor.hpp"
+#include <llvm/IR/Type.h>
+#include <memory>
 #include <string>
 
 namespace yaya {
 
-class PrintVisitor : public AbstractASTVisitor {
-    int _indent = 0;
-    void open_tag(const std::string& name);
-    void close_tag(const std::string& name);
+class TypeVisitor : public AbstractASTVisitor {
+
+    Compiler* _compiler;
+    std::unique_ptr<SymbolTable<llvm::Type*>> _symbol_table =
+        std::make_unique<SymbolTable<llvm::Type*>>();
+    bool do_binop_types(typed_node& lhs, typed_node& rhs);
 
   public:
-    PrintVisitor() = default;
+    TypeVisitor(Compiler* compiler)
+        : AbstractASTVisitor(), _compiler(compiler) {}
 
     void* do_node(basic_node& node) override;
 

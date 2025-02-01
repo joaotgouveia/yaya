@@ -25,6 +25,9 @@ using token = yaya::Parser::token;
 "fn"                    return token::tFUNCTION;
 
 "let"                   return token::tLET;
+"int"                   return token::tTINT;
+"bool"                  return token::tTBOOL;
+"void"                  return token::tTVOID;
 
 "return"                return token::tRETURN;
 
@@ -42,12 +45,12 @@ using token = yaya::Parser::token;
                                 yylval->build<int>(std::stoi(yytext, nullptr, 10));
                                 return token::tINT;
                             } catch (const std::out_of_range&) {
-                                // TODO: Improve error messages?
+                                // TODO: Improve error messages
                                 /* error */
                             }
                         }
 
-[-+*/%<>();={}]         return *yytext;
+[-+*/%<>();={}:]        return *yytext;
 
 .                       return *yytext; /* error */
 

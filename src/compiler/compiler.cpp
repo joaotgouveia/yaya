@@ -1,5 +1,4 @@
 #include "compiler/compiler.hpp"
-#include <fstream>
 #include <memory>
 
 namespace yaya {
@@ -18,7 +17,10 @@ bool Compiler::compile() {
     if (_ast == nullptr && !parse()) {
         return false;
     }
-    _visitor->do_node(*_ast);
+    for (const auto& visitor : _visitors) {
+        visitor->do_node(*_ast);
+    }
+
     return true;
 }
 

@@ -1,11 +1,16 @@
 # Example 01
 
-fn helloworld (hello) {
+fn printInt(int i);
+
+fn helloworld: int (int hello) {
    return hello;
 }
 
-fn main () {
-    let world = 0;
-    let hello = helloworld(helloworld(1));
-    hello == world;
+fn main: int () {
+    let int world = 0;
+    let int hello = helloworld(helloworld(world));
+    printInt(hello);
+    hello = 1;
+    printInt(hello);
+    return 0;
 }

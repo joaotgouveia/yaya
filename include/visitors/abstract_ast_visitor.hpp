@@ -10,6 +10,7 @@ class call_node;
 class declaration_node;
 class div_node;
 class eq_node;
+class function_header_node;
 class function_node;
 class geq_node;
 class group_node;
@@ -38,6 +39,7 @@ class AbstractASTVisitor {
     virtual void* do_node(declaration_node* node) = 0;
     virtual void* do_node(div_node* node) = 0;
     virtual void* do_node(eq_node* node) = 0;
+    virtual void* do_node(function_header_node* node) = 0;
     virtual void* do_node(function_node* node) = 0;
     virtual void* do_node(geq_node* node) = 0;
     virtual void* do_node(group_node* node) = 0;

@@ -1,6 +1,8 @@
 #include "compiler/compiler.hpp"
 #include "visitors/abstract_ast_visitor.hpp"
+#include "visitors/codegen_visitor.hpp"
 #include "visitors/print_visitor.hpp"
+#include "visitors/type_visitor.hpp"
 #include <cstdlib>
 #include <cstring>
 #include <getopt.h>
@@ -24,7 +26,7 @@ int main(int argc, char* argv[]) {
 
     char opt;
     bool print_ast = false;
-    std::string output = "a.out";
+    std::string output = "output.o";
     std::string input = argv[argc - 1];
     while ((opt = getopt(argc, argv, "hpo:")) != -1) {
         switch (opt) {
@@ -34,7 +36,7 @@ int main(int argc, char* argv[]) {
         case 'p':
             print_ast = true;
             break;
-        case 'c':
+        case 'o':
             output = optarg;
             break;
         default:
@@ -43,15 +45,17 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    std::unique_ptr<yaya::AbstractASTVisitor> visitor;
+    yaya::Compiler compiler(input);
+    std::vector<std::unique_ptr<yaya::AbstractASTVisitor>> visitors;
+    visitors.push_back(std::make_unique<yaya::TypeVisitor>(&compiler));
     if (print_ast) {
-        visitor = std::make_unique<yaya::PrintVisitor>();
+        visitors.push_back(std::make_unique<yaya::PrintVisitor>());
     } else {
-        // TODO: Replace print visitor with code generation visitor
-        visitor = std::make_unique<yaya::PrintVisitor>();
+        visitors.push_back(
+            std::make_unique<yaya::CodeGenVisitor>(&compiler, output));
     }
+    compiler.visitors(std::move(visitors));
 
-    yaya::Compiler compiler(input, std::move(visitor));
     if (!compiler.compile()) {
         std::cout << "Compilation failed\n";
         return EXIT_FAILURE;
