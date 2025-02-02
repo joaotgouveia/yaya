@@ -77,6 +77,12 @@ void* CodeGenVisitor::do_node(assignment_node* node) {
     if (!expr || !alloca) {
         // TODO: Report errors
     }
+
+    if (is_bool_t(node->expr()->type())) {
+        expr = _builder->CreateZExt(
+            expr, llvm::Type::getInt8Ty(_compiler->context()));
+    }
+
     _builder->CreateStore(expr, alloca);
     return nullptr;
 }
@@ -111,6 +117,10 @@ void* CodeGenVisitor::do_node(declaration_node* node) {
         if (node->initializer()) {
             llvm::Value* initializer =
                 static_cast<llvm::Value*>(node->initializer()->accept(this));
+            if (is_bool_t(node->initializer()->type())) {
+                initializer = _builder->CreateZExt(
+                    initializer, llvm::Type::getInt8Ty(_compiler->context()));
+            }
             _builder->CreateStore(initializer, alloca);
         }
     }
@@ -181,12 +191,20 @@ void* CodeGenVisitor::do_node(function_node* node) {
     _builder->SetInsertPoint(bb);
 
     node->args()->accept(this);
+    size_t i = 0;
     auto name = _symbol_table->top().begin();
     for (auto& arg : function->args()) {
         arg.setName(name->first);
         llvm::AllocaInst* alloca =
             static_cast<llvm::AllocaInst*>(_symbol_table->find(name->first));
-        _builder->CreateStore(&arg, alloca);
+
+        llvm::Value* expr = &arg;
+        if (is_bool_t(ftype->getParamType(i++))) {
+            expr = _builder->CreateZExt(
+                expr, llvm::Type::getInt8Ty(_compiler->context()));
+        }
+
+        _builder->CreateStore(expr, alloca);
         ++name;
     }
 
@@ -277,6 +295,12 @@ void* CodeGenVisitor::do_node(lvalue_node* node) {
         static_cast<llvm::AllocaInst*>(_symbol_table->find(node->identifier()));
     if (!alloca) {
         // TODO: Report errors
+    }
+    if (is_bool_t(node->type())) {
+        llvm::Value* load = _builder->CreateLoad(
+            llvm::Type::getInt8Ty(_compiler->context()), alloca, "loadtmp");
+        return (void*)_builder->CreateTrunc(
+            load, llvm::Type::getInt1Ty(_compiler->context()));
     }
     return (void*)_builder->CreateLoad(node->type(), alloca, "loadtmp");
 }
