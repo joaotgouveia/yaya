@@ -1,0 +1,17 @@
+# Example 02
+
+fn printBool(bool b);
+
+fn eq: bool (int n1, int n2) {
+   return n1 == n2;
+}
+
+fn main: int () {
+    let int n1 = 0;
+    let int n2 = 1;
+    let bool res = eq(n1, n2);
+    printBool(res);
+    n1 = n1 + 1;
+    printBool(eq(n1, n2));
+    return 0;
+}
