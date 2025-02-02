@@ -170,7 +170,10 @@ void* CodeGenVisitor::do_node(function_node* node) {
         // TODO: Report errors
     }
     llvm::Function* function = llvm::Function::Create(
-        ftype, llvm::Function::ExternalLinkage, node->identifier(), *_module);
+        ftype,
+        node->identifier() == "main" ? llvm::Function::ExternalLinkage
+                                     : llvm::Function::InternalLinkage,
+        node->identifier(), *_module);
 
     _symbol_table->push();
     llvm::BasicBlock* bb =
